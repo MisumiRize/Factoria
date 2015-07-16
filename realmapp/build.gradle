@@ -9,12 +9,15 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/misumirize/maven'
+    }
 }
 
 android {
@@ -22,10 +25,12 @@ android {
     buildToolsVersion '22.0.1'
 
     defaultConfig {
+        applicationId 'org.factoria.realmapp'
         minSdkVersion 9
         targetSdkVersion 22
         versionCode 1
         versionName '1.0'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     compileOptions {
@@ -44,10 +49,19 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/LICENSE.txt'
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.yaml:snakeyaml:1.15'
-    compile 'commons-io:commons-io:2.4'
+    compile 'io.realm:realm-android:0.81.1'
+    androidTestCompile project(':lib')
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'org.soylentsystem:soylentsystem:0.1-alpha1'
 }
+
