@@ -1,0 +1,21 @@
+language: android
+jdk: oraclejdk8
+android:
+  components:
+  - platform-tools
+  - build-tools-22.0.1
+  - android-22
+  - extra-android-m2repository
+  - sys-img-x86-android-22
+
+before_script:
+  - echo no | android create avd --force -n test -t android-22 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script: "./gradlew connectedAndroidTest"
+
+notifications:
+  slack:
+    secure: MaxlW1WrLtw3TxPx6Lo3xteqVzQY8hs14aNae0UPpbdAR6TfAD4J7beG8WoZbk9V+zS2eTO9NvnXwnV2N9gtb6EYJ6bS9vMZi60FYZ94+d0WW9u62D7s9xTkEv2hjsri82s69u7WbdclLzoyfulAekY9CS6UQL3+x3xpg+os7hDH01FPxWAdm1lkBkizS2P2tdA7i2p6bOkko/Y2AbXr1TyCjK7KfyGvuXyFpoXMzd+UXCaOESxaJUrh5VtlOAQ0eQOoVs+zdLig2vN2oPOM0x28D4+FxW/riu6z4ktbEWvzi0UfggMO4iA6LXN54HECN2RzjdRPDT5Ze6d+4n6c07/AGMdAYnMwPI4dfyCsqwTvgHLFMxqfCnvTeI4Sg3hQwgqQH/DBQHoHtNXVJWlV3V51iOC74Mo5d1/oeuC5qBi9TKGfWdvEz/NrfYwrAc2hjoyi9CzMuln4ya9TU8h/E+ESQ3TJ3dqO4BBzlDYWuzP9sEP05C805LOHkDCDCmGYUzLIE+gikr2HJr9xs7A5dhAQRTMyXkyv+VqKKvZIBDi8//mW9rtFgktnbbqEDtU/xEAtti/3RsDnaVN4UXyoSypDGZor/o1CRcnKbo/TevLEZzMmsiu9u74ghsXvOLh86cVKw7glvGo1F9ZojqqiXgFXl2o00nBVWaqOGhsuQsw=
